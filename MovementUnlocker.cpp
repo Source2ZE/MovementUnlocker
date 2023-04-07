@@ -59,7 +59,7 @@ bool MovementUnlocker::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxl
 	char *pBinPath = "csgo/bin/server.dll";
 	auto *pBin = LoadLibrary(pBinPath);
 #elif __linux__
-	char * pBinPath = "csgo/bin/server.so";
+	char *pBinPath = "csgo/bin/server.so";
 	auto *pBin = dlopen(pBinPath, RTLD_NOW);
 #endif
 
