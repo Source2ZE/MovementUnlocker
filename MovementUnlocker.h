@@ -3,11 +3,7 @@
 
 #include <ISmmPlugin.h>
 
-#if defined WIN32 && !defined snprintf
-#define snprintf _snprintf
-#endif
-
-class MovementUnlocker : public ISmmPlugin
+class MovementUnlocker : public ISmmPlugin, public IMetamodListener
 {
 public:
 	bool Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool late);
