@@ -155,7 +155,7 @@ const char *MovementUnlocker::GetAuthor()
 
 const char *MovementUnlocker::GetDescription()
 {
-	return "CS2 MM:S port of Movement Unlocker, removes max speed limitation from players on the ground";
+	return "Removes max speed limitation from players on the ground, feels like CS:S";
 }
 
 const char *MovementUnlocker::GetName()

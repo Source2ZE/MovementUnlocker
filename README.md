@@ -1,5 +1,5 @@
-# MovementUnlocker
+# Movement Unlocker
 
-Metamod port of [Movement Unlocker](https://forums.alliedmods.net/showthread.php?t=255298) intended for CS2.
+A Counter-Strike 2 Metamod plugin that removes the max speed limitation from players on the ground, feels like CS:S. Useful for zombie knockback, several movement gamemodes, or just easier bhop.
 
-Currently this project is targeting CS:GO simply due to the unavailability of Metamod for CS2, it should be fairly simple to port once Metamod is available.
+Ported from the [Movement Unlocker](https://forums.alliedmods.net/showthread.php?t=255298) SourceMod plugin for CS:GO.
