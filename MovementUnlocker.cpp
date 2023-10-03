@@ -57,11 +57,12 @@ bool MovementUnlocker::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxl
 	PLUGIN_SAVEVARS();
 
 	int PatchLen = strlen(pPatchPattern);
+	char pBinPath[MAX_PATH];
 #ifdef _WIN32
-	char const *pBinPath = "csgo/bin/win64/server.dll";
+	V_snprintf(pBinPath, MAX_PATH, "%s%s", Plat_GetGameDirectory(), "/csgo/bin/win64/server.dll");
 	auto *pBin = LoadLibrary(pBinPath);
 #elif __linux__
-	char const *pBinPath = "csgo/bin/linuxsteamrt64/libserver.so";
+	V_snprintf(pBinPath, MAX_PATH, "%s%s", Plat_GetGameDirectory(), "/csgo/bin/linuxsteamrt64/libserver.so");
 	auto *pBin = dlopen(pBinPath, RTLD_NOW);
 #endif
 
