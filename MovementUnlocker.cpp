@@ -91,19 +91,16 @@ bool MovementUnlocker::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxl
 		return false;
 	}
 
-#ifdef _WIN32
-	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_WRITE | SH_MEM_EXEC);
-	*(unsigned char*)(pPatchAddress) = ((unsigned char*)"\xEB")[0];
-	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_EXEC);
-#elif __linux__
 	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_WRITE | SH_MEM_EXEC);
 
+#ifdef _WIN32
+	*(unsigned char*)(pPatchAddress) = ((unsigned char*)"\xEB")[0];
+#elif __linux__
 	for (int i = 0; i < PatchLen; i++)
 		*(unsigned char*)(pPatchAddress + i) = ((unsigned char*)"\x90")[0];
-
-	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_EXEC);
 #endif
 
+	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_EXEC);
 	META_CONPRINTF( "[Movement Unlocker] Successfully patched Movement Unlocker!\n" );
 
 	return true;
