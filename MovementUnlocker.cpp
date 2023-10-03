@@ -12,9 +12,11 @@ MovementUnlocker g_MovementUnlocker;
 #ifdef _WIN32
 const unsigned char *pPatchSignature = (unsigned char *)"\x76\x2A\xF2\x0F\x10\x57\x3C\xF3\x0F\x10\x47\x44\x0F\x28\xCA\xF3\x0F\x59\xC0";
 const char *pPatchPattern = "x?xxxxxxxxxxxxxxxxx";
+int PatchLen = 1;
 #elif __linux__
 const unsigned char * pPatchSignature = (unsigned char *)"\x0F\x87\x2A\x2A\x2A\x2A\x49\x8B\x7C\x24\x30\xE8\x2A\x2A\x2A\x2A\x66\x0F\xEF\xED";
 const char* pPatchPattern = "xx????xxxxxx????xxxx";
+int PatchLen = 6;
 #endif
 
 // From https://git.botox.bz/CSSZombieEscape/sm-ext-PhysHooks
@@ -26,6 +28,7 @@ uintptr_t FindPattern(uintptr_t BaseAddr, const unsigned char* pData, const char
 	pMemory = reinterpret_cast<unsigned char*>(BaseAddr);
 
 	if (!Reverse)
+	{
 		for (uintptr_t i = 0; i < MaxSize; i++)
 		{
 			uintptr_t Matches = 0;
@@ -36,7 +39,9 @@ uintptr_t FindPattern(uintptr_t BaseAddr, const unsigned char* pData, const char
 					return (uintptr_t)(pMemory + i);
 			}
 		}
+	}
 	else
+	{
 		for (uintptr_t i = 0; i < MaxSize; i++)
 		{
 			uintptr_t Matches = 0;
@@ -47,6 +52,7 @@ uintptr_t FindPattern(uintptr_t BaseAddr, const unsigned char* pData, const char
 					return (uintptr_t)(pMemory - i);
 			}
 		}
+	}
 
 	return 0x00;
 }
@@ -56,7 +62,6 @@ bool MovementUnlocker::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxl
 {
 	PLUGIN_SAVEVARS();
 
-	int PatchLen = strlen(pPatchPattern);
 	char pBinPath[MAX_PATH];
 #ifdef _WIN32
 	V_snprintf(pBinPath, MAX_PATH, "%s%s", Plat_GetGameDirectory(), "/csgo/bin/win64/server.dll");
@@ -91,14 +96,12 @@ bool MovementUnlocker::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxl
 	*(unsigned char*)(pPatchAddress) = ((unsigned char*)"\xEB")[0];
 	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_EXEC);
 #elif __linux__
-	for (int i = 0; i < 5; i++)
-	{
-		SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_WRITE | SH_MEM_EXEC);
-		*(unsigned char*)(pPatchAddress) = ((unsigned char*)"\x90")[i];
-		SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_EXEC);
+	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_WRITE | SH_MEM_EXEC);
 
-		pPatchAddress++;
-	}
+	for (int i = 0; i < PatchLen; i++)
+		*(unsigned char*)(pPatchAddress + i) = ((unsigned char*)"\x90")[0];
+
+	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_EXEC);
 #endif
 
 	META_CONPRINTF( "[Movement Unlocker] Successfully patched Movement Unlocker!\n" );
