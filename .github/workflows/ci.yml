@@ -90,12 +90,12 @@ jobs:
           ls -Rall
           if [ -d "./Linux/" ]; then
             cd ./Linux/
-            tar -czf ../${{ github.event.repository.name }}-${version}-linux.tar.gz -T <(\ls -1)
+            tar -czf ../${{ github.event.repository.name }}-${version}-linux.tar.gz addons
             cd -
           fi
           if [ -d "./Windows/" ]; then
             cd ./Windows/
-            tar -czf ../${{ github.event.repository.name }}-${version}-windows.tar.gz -T <(\ls -1)
+            zip -r ../${{ github.event.repository.name }}-${version}-windows.zip addons
             cd -
           fi
 
@@ -103,6 +103,6 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: '*.tar.gz'
+          file: ${{ github.event.repository.name }}-*
           tag: ${{ github.ref }}
           file_glob: true
