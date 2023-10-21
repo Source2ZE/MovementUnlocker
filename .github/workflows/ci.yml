@@ -22,14 +22,8 @@ jobs:
         include:
           - os: windows-2022
           - os: ubuntu-latest
-            container: registry.gitlab.steamos.cloud/steamrt/sniper/platform
+            container: registry.gitlab.steamos.cloud/steamrt/sniper/sdk
     steps:
-      - name: Install apt packages
-        if: runner.os == 'Linux'
-        run: |
-          apt update
-          apt install -y git python3 python3-setuptools clang
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -65,7 +59,7 @@ jobs:
         shell: bash
         run: |
           mkdir build && cd build
-          python ../configure.py --enable-optimize --sdks cs2
+          python ../configure.py --enable-optimize --symbol-files --sdks cs2
           ambuild
 
       - name: Upload artifact
