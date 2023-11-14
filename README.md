@@ -4,6 +4,8 @@ A Counter-Strike 2 Metamod plugin that removes the max speed limitation from pla
 
 Ported from the [Movement Unlocker](https://forums.alliedmods.net/showthread.php?t=255298) SourceMod plugin for CS:GO.
 
+Note this plugin is currently incompatible with the ZE build of CS2Fixes, as it also implements unlocked movement. Pick one or the other as you don't need both.
+
 ## Installation
 
 - Install [Metamod](https://www.sourcemm.net/downloads.php?branch=dev)
