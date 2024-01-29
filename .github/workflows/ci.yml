@@ -1,14 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - main
-    tags:
-      - '*'
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
   build:
@@ -28,6 +20,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: MovementUnlocker
+          submodules: recursive
 
       - name: Checkout Metamod
         uses: actions/checkout@v4
@@ -59,11 +52,11 @@ jobs:
         shell: bash
         run: |
           mkdir build && cd build
-          python ../configure.py --enable-optimize --symbol-files --sdks cs2
+          python ../configure.py --enable-optimize --symbol-files --sdks cs2 --hl2sdk-manifests hl2sdk-manifests/
           ambuild
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}
           path: MovementUnlocker/build/package
@@ -76,7 +69,7 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Package
         run: |
@@ -84,12 +77,12 @@ jobs:
           ls -Rall
           if [ -d "./Linux/" ]; then
             cd ./Linux/
-            tar -czf ../${{ github.event.repository.name }}-${version}-linux.tar.gz addons
+            tar -czf ../${{ github.event.repository.name }}-${version}-linux.tar.gz *
             cd -
           fi
           if [ -d "./Windows/" ]; then
             cd ./Windows/
-            zip -r ../${{ github.event.repository.name }}-${version}-windows.zip addons
+            zip -r ../${{ github.event.repository.name }}-${version}-windows.zip *
             cd -
           fi
 
