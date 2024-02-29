@@ -150,7 +150,6 @@ class MMSPluginConfig(object):
         '-pipe',
         '-fno-strict-aliasing',
         '-Wall',
-        '-Werror',
         '-Wno-uninitialized',
         '-Wno-unused',
         '-Wno-switch',
