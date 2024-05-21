@@ -29,8 +29,8 @@
 MovementUnlocker g_MovementUnlocker;
 
 #ifdef _WIN32
-const unsigned char *pPatchSignature = (unsigned char *)"\x76\x2A\xF2\x0F\x10\x57\x3C\xF3\x0F\x10\x47\x44\x0F\x28\xCA\xF3\x0F\x59\xC0";
-const char *pPatchPattern = "x?xxxxxxxxxxxxxxxxx";
+const unsigned char *pPatchSignature = (unsigned char *)"\x76\x2A\xF2\x0F\x10\x57\x2A\x0F\x28\x2A\xF3\x0F\x2A\x2A\x0F\x28\x2A";
+const char *pPatchPattern = "x?xxxx?xx?xx??xx?";
 int PatchLen = 1;
 #elif __linux__
 const unsigned char * pPatchSignature = (unsigned char *)"\x0F\x87\x2A\x2A\x2A\x2A\x49\x8B\x7D\x30\xE8\x2A\x2A\x2A\x2A\x66\x0F\xEF\xED";
@@ -151,7 +151,7 @@ const char *MovementUnlocker::GetLicense()
 
 const char *MovementUnlocker::GetVersion()
 {
-	return "1.1";
+	return "1.2";
 }
 
 const char *MovementUnlocker::GetDate()
