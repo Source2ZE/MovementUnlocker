@@ -33,8 +33,8 @@ const unsigned char *pPatchSignature = (unsigned char *)"\x76\x2A\xF2\x0F\x10\x5
 const char *pPatchPattern = "x?xxxx?xx?xx??xx?";
 int PatchLen = 1;
 #elif __linux__
-const unsigned char * pPatchSignature = (unsigned char *)"\x0F\x87\x2A\x2A\x2A\x2A\x49\x8B\x7D\x30\xE8\x2A\x2A\x2A\x2A\x66\x0F\xEF\xED";
-const char* pPatchPattern = "xx????xxxxx????xxxx";
+const unsigned char * pPatchSignature = (unsigned char *)"\x0F\x87\x2A\x2A\x2A\x2A\x49\x8B\x7C\x24\x2A\xE8\x2A\x2A\x2A\x2A\x66\x0F\xEF\xED\x66\x0F\xD6\x85";
+const char* pPatchPattern = "xx????xxxx?x????xxxxxxxx";
 int PatchLen = 6;
 #endif
 
@@ -151,7 +151,7 @@ const char *MovementUnlocker::GetLicense()
 
 const char *MovementUnlocker::GetVersion()
 {
-	return "1.2";
+	return "1.3";
 }
 
 const char *MovementUnlocker::GetDate()
