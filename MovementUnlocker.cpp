@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 #include "MovementUnlocker.h"
-#include <sh_memory.h>
+#include "khook/memory.hpp"
 #ifdef _WIN32
 #include <Windows.h>
 #elif __linux__
@@ -110,7 +110,7 @@ bool MovementUnlocker::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxl
 		return false;
 	}
 
-	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_WRITE | SH_MEM_EXEC);
+	KHook::Memory::SetAccess((void*)pPatchAddress, PatchLen, KHook::Memory::READ | KHook::Memory::WRITE | KHook::Memory::EXECUTE);
 
 #ifdef _WIN32
 	const char* patchBytes[] = {"\xE9", "\xB0", "\x00", "\x00", "\x00", "\x90"};
@@ -122,7 +122,7 @@ bool MovementUnlocker::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxl
 		*(unsigned char*)(pPatchAddress + i) = ((unsigned char*)"\x90")[0];
 #endif
 
-	SourceHook::SetMemAccess((void*)pPatchAddress, PatchLen, SH_MEM_READ | SH_MEM_EXEC);
+	KHook::Memory::SetAccess((void*)pPatchAddress, PatchLen, KHook::Memory::READ | KHook::Memory::EXECUTE);
 	META_CONPRINTF( "[Movement Unlocker] Successfully patched Movement Unlocker!\n" );
 
 	return true;
@@ -154,7 +154,7 @@ const char *MovementUnlocker::GetLicense()
 
 const char *MovementUnlocker::GetVersion()
 {
-	return "1.12";
+	return "2.0";
 }
 
 const char *MovementUnlocker::GetDate()
