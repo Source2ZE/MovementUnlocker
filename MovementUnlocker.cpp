@@ -33,9 +33,9 @@ const unsigned char *pPatchSignature = (unsigned char *)"\x0F\x86\xAF\x2A\x2A\x2
 const char *pPatchPattern = "xxx???xxxxxx";
 int PatchLen = 6;
 #elif __linux__
-const unsigned char * pPatchSignature = (unsigned char *)"\x0F\x87\x2A\x2A\x2A\x2A\xF3\x0F\x10\x25\x2A\x2A\x2A\x2A\xF3\x0F\x11\xA5\x2A\x2A\x2A\x2A\x48\x89\xDE";
-const char* pPatchPattern = "xx????xxxx????xxxx????xxx";
-int PatchLen = 6;
+const unsigned char * pPatchSignature = (unsigned char *)"\x76\x2A\xF3\x0F\x51\xC0\xF3\x0F\x7E\xDB\x49\x8B\x06";
+const char* pPatchPattern = "x?xxxxxxxxxxx";
+int PatchLen = 1;
 #endif
 
 // From https://git.botox.bz/CSSZombieEscape/sm-ext-PhysHooks
@@ -119,7 +119,7 @@ bool MovementUnlocker::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxl
 		*(unsigned char*)(pPatchAddress + i) = ((unsigned char*)patchBytes[i])[0];
 #elif __linux__
 	for (int i = 0; i < PatchLen; i++)
-		*(unsigned char*)(pPatchAddress + i) = ((unsigned char*)"\x90")[0];
+		*(unsigned char*)(pPatchAddress + i) = ((unsigned char*)"\xEB")[0];
 #endif
 
 	KHook::Memory::SetAccess((void*)pPatchAddress, PatchLen, KHook::Memory::READ | KHook::Memory::EXECUTE);
@@ -154,7 +154,7 @@ const char *MovementUnlocker::GetLicense()
 
 const char *MovementUnlocker::GetVersion()
 {
-	return "2.0";
+	return "2.0.1";
 }
 
 const char *MovementUnlocker::GetDate()
